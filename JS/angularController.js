@@ -111,37 +111,34 @@ var BankApp = angular.module("MyApp", []);
         
         inp1=document.querySelector("#formInitialLoan");
         inp2=document.querySelector("#formDownPayment");
-        if(Number.isInteger(inp1.value)){
+        if(Number.isInteger(parseInt(inp1.value))){
             inp2.value=parseFloat(inp1.value)/100*$scope.selectBank.MinimumDownPayment;
         }
-        inp2.value=parseFloat(inp1.value)/100*$scope.selectBank.MinimumDownPayment;
+        
     }
     // calculate formula
     $scope.calculate=function(InitialLoanInput,DownPaymentInput,LoanTermInput){
-        let DownPaymentInput1=document.querySelector("#formDownPayment");
-        DownPaymentInput=parseFloat(DownPaymentInput1.value);
-        let P,r,t,n;
-        P=InitialLoanInput-DownPaymentInput;
-        r=$scope.selectBank.InterestRate;
-        t=LoanTermInput;
-        var i,
-        koef,
-        result;
-
-        console.log(DownPaymentInput);
-
-    // ставка в месяц
-    i = (r / 12) / 100;
-    // коэффициент аннуитета
-    koef = (i * (Math.pow(1 + i, t * 12))) / (Math.pow(1 + i, t * 12) - 1);
-    // итог
-    result = P * koef;
-    document.querySelector("#result").innerText=result.toFixed();
-
+        if(Number.isInteger(InitialLoanInput)){
+            let DownPaymentInput1=document.querySelector("#formDownPayment");
+            DownPaymentInput=parseFloat(DownPaymentInput1.value);
+            let P,r,t;
+            P=InitialLoanInput-DownPaymentInput;
+            r=$scope.selectBank.InterestRate;
+            t=LoanTermInput;
+            var i,
+            koef,
+            result;
+            console.log(DownPaymentInput);
+        // ставка в месяц
+        i = (r / 12) / 100;
+        // коэффициент аннуитета
+        koef = (i * (Math.pow(1 + i, t * 12))) / (Math.pow(1 + i, t * 12) - 1);
+        // итог
+        result = P * koef;
+        document.querySelector("#result").innerText=result.toFixed();
+        }
     }
 });
-
-
 // remove class table-primary
 function removeClasTablePrimary(){
     var elms=document.getElementsByClassName("table-primary");
@@ -151,14 +148,9 @@ function removeClasTablePrimary(){
         }
     }
 }
-
-
-
-//display range input
-// let el=document.querySelector("#LoanTermRange");
-// el.addEventListener("input",function(){
-//     let digitOfLoanTermRange=document.querySelector("#digitOfLoanTermRange");
-//     digitOfLoanTermRange.innerText=el.value.toString();
-// })
-
-
+// display range input
+let el=document.querySelector("#LoanTermRange");
+el.addEventListener("input",function(){
+    let digitOfLoanTermRange=document.querySelector("#digitOfLoanTermRange");
+    digitOfLoanTermRange.innerText=el.value.toString();
+})
